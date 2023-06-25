@@ -21,7 +21,7 @@ services:
     image: redis:alpine
     restart: always
 
-  app:
+  nc:
     image: nextcloud:apache
     restart: always
     volumes:
