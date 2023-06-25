@@ -82,9 +82,9 @@ services:
     depends_on:
       - db
       - redis
-  volumes:
-    db:
-    nextcloud:
+volumes:
+  db:
+  nextcloud:
 
 networks:
   proxy-tier: 
