@@ -60,6 +60,8 @@ proxy:
       - OBJECTSTORE_S3_SECRET:${OBJECTSTORE_S3_SECRET}
       - OBJECTSTORE_S3_REGION:${OBJECTSTORE_S3_REGION}
       - MYSQL_HOST=db
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
       - REDIS_HOST=redis
     env_file:
       - db.env
