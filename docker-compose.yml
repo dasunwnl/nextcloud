@@ -20,8 +20,7 @@ services:
       - EXTRA_DOMAINS= #optional
       - STAGING=false #optional
     volumes:
-      - ./proxy/config:/config
-      - ./proxy/conf/nextcloud.subdomain.conf:/config/nginx/proxy-confs/nextcloud.subdomain.conf:rw
+      - ./proxy/config:/config   
     ports:
       - 443:443
       - 80:80 #optional
