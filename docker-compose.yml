@@ -88,4 +88,5 @@ proxy:
   nextcloud:
 
 networks:
-  proxy-tier:  
+  proxy-tier: 
+  default:
