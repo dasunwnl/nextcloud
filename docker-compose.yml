@@ -48,7 +48,7 @@ proxy:
     image: redis:alpine
     restart: always
 
-  nc:
+  nextcloud:
     image: nextcloud:apache
     restart: always
     volumes:
