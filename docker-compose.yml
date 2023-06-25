@@ -54,9 +54,11 @@ proxy:
     volumes:
       - nextcloud:/var/www/html:z
     environment:
-      - VIRTUAL_HOST=
-      - LETSENCRYPT_HOST=
-      - LETSENCRYPT_EMAIL=
+      - OBJECTSTORE_S3_HOST:${OBJECTSTORE_S3_HOST}
+      - OBJECTSTORE_S3_BUCKET:${OBJECTSTORE_S3_BUCKET}
+      - OBJECTSTORE_S3_KEY:${OBJECTSTORE_S3_KEY}
+      - OBJECTSTORE_S3_SECRET:${OBJECTSTORE_S3_SECRET}
+      - OBJECTSTORE_S3_REGION:${OBJECTSTORE_S3_REGION}
       - MYSQL_HOST=db
       - REDIS_HOST=redis
     env_file:
