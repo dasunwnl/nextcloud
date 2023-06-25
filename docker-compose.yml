@@ -88,4 +88,4 @@ db:
 
 networks:
   proxy-tier: 
-  default:
+  
