@@ -1,6 +1,33 @@
 version: '3'
 
 services:
+proxy:
+    image: lscr.io/linuxserver/swag:latest
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - URL=yourdomain.url
+      - VALIDATION=http
+      - SUBDOMAINS=www, #optional
+      - CERTPROVIDER= #optional
+      - DNSPLUGIN=cloudflare #optional
+      - PROPAGATION= #optional
+      - EMAIL= #optional
+      - ONLY_SUBDOMAINS=false #optional
+      - EXTRA_DOMAINS= #optional
+      - STAGING=false #optional
+    volumes:
+      - /path/to/appdata/config:/config
+    ports:
+      - 443:443
+      - 80:80 #optional
+    restart: unless-stopped
+    networks:
+      - proxy-tier
   db:
     image: mariadb:10.6
     command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
@@ -34,13 +61,13 @@ services:
       - REDIS_HOST=redis
     env_file:
       - db.env
+      - s3.env
     depends_on:
       - db
       - redis
     networks:
       - proxy-tier
       - default
-
   cron:
     image: nextcloud:apache
     restart: always
@@ -50,23 +77,6 @@ services:
     depends_on:
       - db
       - redis
-
-  proxy:
-    build: ./proxy
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
-    labels:
-      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
-    volumes:
-      - certs:/etc/nginx/certs:z,ro
-      - vhost.d:/etc/nginx/vhost.d:z
-      - html:/usr/share/nginx/html:z
-      - /var/run/docker.sock:/tmp/docker.sock:z,ro
-    networks:
-      - proxy-tier
-
   letsencrypt-companion:
     image: nginxproxy/acme-companion
     restart: always
