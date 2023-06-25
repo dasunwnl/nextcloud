@@ -10,14 +10,13 @@ proxy:
       - PUID=1000
       - PGID=1000
       - TZ=Etc/UTC
-      - URL=yourdomain.url
+      - URL=wnl.lk
       - VALIDATION=http
-      - SUBDOMAINS=www, #optional
+      - SUBDOMAINS=drive, #optional
       - CERTPROVIDER= #optional
-      - DNSPLUGIN=cloudflare #optional
       - PROPAGATION= #optional
-      - EMAIL= #optional
-      - ONLY_SUBDOMAINS=false #optional
+      - EMAIL=dasun@wnl.lk #optional
+      - ONLY_SUBDOMAINS=true #optional
       - EXTRA_DOMAINS= #optional
       - STAGING=false #optional
     volumes:
@@ -28,6 +27,7 @@ proxy:
     restart: unless-stopped
     networks:
       - proxy-tier
+      - default
   db:
     image: mariadb:10.6
     command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
@@ -38,6 +38,7 @@ proxy:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MARIADB_AUTO_UPGRADE=1
       - MARIADB_DISABLE_UPGRADE_BACKUP=1
       
@@ -62,6 +63,7 @@ proxy:
       - MYSQL_HOST=db
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - REDIS_HOST=redis
     env_file:
       - db.env
@@ -81,42 +83,9 @@ proxy:
     depends_on:
       - db
       - redis
-  letsencrypt-companion:
-    image: nginxproxy/acme-companion
-    restart: always
-    volumes:
-      - certs:/etc/nginx/certs:z
-      - acme:/etc/acme.sh:z
-      - vhost.d:/etc/nginx/vhost.d:z
-      - html:/usr/share/nginx/html:z
-      - /var/run/docker.sock:/var/run/docker.sock:z,ro
-    networks:
-      - proxy-tier
-    depends_on:
-      - proxy
-
-# self signed
-#  omgwtfssl:
-#    image: paulczar/omgwtfssl
-#    restart: "no"
-#    volumes:
-#      - certs:/certs
-#    environment:
-#      - SSL_SUBJECT=servhostname.local
-#      - CA_SUBJECT=my@example.com
-#      - SSL_KEY=/certs/servhostname.local.key
-#      - SSL_CSR=/certs/servhostname.local.csr
-#      - SSL_CERT=/certs/servhostname.local.crt
-#    networks:
-#      - proxy-tier
-
-volumes:
+ volumes:
   db:
   nextcloud:
-  certs:
-  acme:
-  vhost.d:
-  html:
 
 networks:
-  proxy-tier:
+  proxy-tier:  
