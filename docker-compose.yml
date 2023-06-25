@@ -48,7 +48,7 @@ services:
     networks:
       - default
   nextcloud:
-    image: nextcloud:apache
+    image: lscr.io/linuxserver/nextcloud:latest
     container_name: nextcloud
     restart: always
     volumes:
@@ -71,15 +71,6 @@ services:
       - redis
     networks:
       - default
-  cron:
-    image: nextcloud:apache
-    restart: always
-    volumes:
-      - ./nextcloud:/var/www/html:z
-    entrypoint: /cron.sh
-    depends_on:
-      - db
-      - redis
 volumes:
   db:
   
