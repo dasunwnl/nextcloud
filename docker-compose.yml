@@ -41,8 +41,7 @@ db:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MARIADB_AUTO_UPGRADE=1
       - MARIADB_DISABLE_UPGRADE_BACKUP=1
-      
-    env_file:
+     env_file:
       - db.env
   redis:
     image: redis:alpine
