@@ -21,7 +21,7 @@ services:
       - STAGING=false #optional
     volumes:
       - ./proxy/config:/config
-      - ./proxy/conf/nextcloud.subdomain.conf:/config/nginx/proxy-confs/config/nextcloud.subdomain.conf
+      - ./proxy/conf/nextcloud.subdomain.conf:/config/nginx/proxy-confs/nextcloud.subdomain.conf
     ports:
       - 443:443
       - 80:80 #optional
