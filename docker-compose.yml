@@ -12,13 +12,14 @@ services:
       - TZ=Etc/UTC
       - URL=wnl.lk
       - VALIDATION=http
-      - SUBDOMAINS=drive, #optional
+      - SUBDOMAINS=drive,ncdboard, #optional
       - CERTPROVIDER= #optional
       - PROPAGATION= #optional
       - EMAIL=dasun@wnl.lk #optional
       - ONLY_SUBDOMAINS=true #optional
       - EXTRA_DOMAINS= #optional
       - STAGING=false #optional
+      - DOCKER_MODS=linuxserver/mods:swag-dashboard
     volumes:
       - ./proxy/config:/config   
     ports:
